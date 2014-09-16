@@ -15,5 +15,8 @@ The library contains the Alfred class that has these class functions:
 |public func AddResult( uid: String, arg: String, title: String, sub: String, icon: String, valid: String, auto: String, rtype: String) | This adds a result to the XML list output. |
 |public func SetDefaultString(title: String)| This sets a default string in case the results array is empty. |
 
+The file compileSteps.md show how to compile the library and a program using it (tccconvert in this case). It assumes you have xCode 6 beta 6 installed.
+
 **Text Case Converter in Swift**
+
 This workflow is a replication of my "tm:case" command of the Text Massager Workflow done in Swift. You have to have xCode 6 beta 4 to recompile the executable, but it should run on any system that is OS Maverick and up. Instructions for recompiling the Alfred Swift Library and the program is in the workflow directory. The one command is "tc:convert". The string given will be shown in capital case, upper case, lower case, and title case.
