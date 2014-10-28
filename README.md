@@ -17,6 +17,11 @@ The library contains the Alfred class that has these class functions:
 
 The file compileSteps.md show how to compile the library and a program using it (tccconvert in this case). It assumes you have xCode 6 beta 6 installed.
 
-**Text Case Converter in Swift**
+# Text Case Converter in Swift
 
 This workflow is a replication of my "tm:case" command of the Text Massager Workflow done in Swift. You have to have xCode 6 beta 4 to recompile the executable, but it should run on any system that is OS Maverick and up. Instructions for recompiling the Alfred Swift Library and the program is in the workflow directory. The one command is "tc:convert". The string given will be shown in capital case, upper case, lower case, and title case.
+
+# Compiling
+
+I have just updated the instructions in the file "compileSteps.md" to compile the code on a command line. It currently works with OS 10.10 Xcode Version 6.1 (6A1052d).
+
