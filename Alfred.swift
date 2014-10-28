@@ -51,7 +51,7 @@ class Regex {
 	init(_ pattern: String) {
 		self.pattern = pattern
 		var error: NSError?
-		self.internalExpression = NSRegularExpression(pattern: pattern, options: .CaseInsensitive, error: &error)
+		self.internalExpression = NSRegularExpression(pattern: pattern, options: .CaseInsensitive, error: &error)!
 	}
 
 	func test(input: String) -> Bool {
@@ -108,7 +108,7 @@ public class Alfred {
 		let process = NSProcessInfo.processInfo();
 		let edict = NSDictionary(dictionary: process.environment)
 		path = fileMGR.currentDirectoryPath
-		home = edict.objectForKey("HOME") as String
+		home = edict["HOME"] as String
 
 		//
 		// If the info.plist file exists, read it for the bundleid and set the bundleId variable.
@@ -154,8 +154,8 @@ public class Alfred {
 		//
 		if( bundleId == "" ) {
 			let path = NSBundle.mainBundle().pathForResource("info", ofType: "plist")
-			let dict = NSDictionary(contentsOfFile: path!)
-			bundleId = dict.objectForKey("bundleid") as String
+			let dict = NSDictionary(contentsOfFile: path!)!
+			bundleId = dict["bundleid"] as String
 		}
 
 		//
