@@ -55,7 +55,7 @@ class Regex {
 	}
 
 	func test(input: String) -> Bool {
-		let matches = self.internalExpression.matchesInString(input, options: nil, range:NSMakeRange(0, countElements(input)))
+		let matches = self.internalExpression.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
 		return matches.count > 0
 	}
 }
@@ -108,7 +108,7 @@ public class Alfred {
 		let process = NSProcessInfo.processInfo();
 		let edict = NSDictionary(dictionary: process.environment)
 		path = fileMGR.currentDirectoryPath
-		home = edict["HOME"] as String
+		home = edict["HOME"] as! String
 
 		//
 		// If the info.plist file exists, read it for the bundleid and set the bundleId variable.
@@ -155,7 +155,7 @@ public class Alfred {
 		if( bundleId == "" ) {
 			let path = NSBundle.mainBundle().pathForResource("info", ofType: "plist")
 			let dict = NSDictionary(contentsOfFile: path!)!
-			bundleId = dict["bundleid"] as String
+			bundleId = dict["bundleid"] as! String
 		}
 
 		//

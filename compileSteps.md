@@ -13,4 +13,4 @@ In the Terminal.app or iTerm.app program, run these command lines in the directo
 
 Once all four steps are ran, you will have the tcconverter program in that directory. If you change the tcconverter.swift code, you only have to re-run the last command. If you change the Alfred.swift code, you will have to re-run all four lines.
 
-This currently works with xCode 6 beta 4.
+This currently works with xCode 6.1.
