@@ -42,7 +42,7 @@ struct AlfredResult {
 // Class:			Regex
 //
 // Description:	This is a helper class for writing tests using regular expressions. Based
-//						on article: http://benscheirman.com/2014/06/regex-in-swift/
+//				on article: http://benscheirman.com/2014/06/regex-in-swift/
 //
 class Regex {
 	let internalExpression: NSRegularExpression
@@ -55,7 +55,7 @@ class Regex {
 	}
 
 	func test(input: String) -> Bool {
-		let matches = self.internalExpression.matchesInString(input, options: nil, range:NSMakeRange(0, count(input)))
+		let matches = self.internalExpression.matchesInString(input, options:0 .CaseInsensitive, range:NSMakeRange(0, count(input)))
 		return matches.count > 0
 	}
 }
@@ -69,7 +69,6 @@ public class Alfred {
 
 	var cache:		String = ""
 	var data:		String = ""
-	var bundleId:	String = ""
 	var path:		String = ""
 	var home:		String = ""
 	var fileMGR:   NSFileManager = NSFileManager()
@@ -111,15 +110,10 @@ public class Alfred {
 		home = edict["HOME"] as! String
 
 		//
-		// If the info.plist file exists, read it for the bundleid and set the bundleId variable.
-		//
-		bundleId = GetBundleId()
-
-		//
 		// Create the directory structure for the cache and data directories.
 		//
-		cache = home + "/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data/" + bundleId;
-		data  = home + "/Library/Application Support/Alfred 2/Workflow Data/" + bundleId;
+		cache = edict["alfred_workflow_cache"] as! String
+		data  = edict["alfred_workflow_data"] as! String
 
 		//
 		// See if the cache directory exists.
@@ -128,7 +122,13 @@ public class Alfred {
 			//
 			// It does not exist. Create it!
 			//
-			fileMGR.createDirectoryAtPath(cache, withIntermediateDirectories:true, attributes:nil, error:nil)
+			do {
+				try fileMGR.createDirectoryAtPath(cache, withIntermediateDirectories:true, attributes:nil)
+			}
+			catch let error as NSError {
+			    // Catch a possible error
+			    print("Ooops! Can't create directory: \(error)")
+			}
 		}
 
 		//
@@ -138,30 +138,14 @@ public class Alfred {
 			//
 			// It does not exist. Create it!
 			//
-			fileMGR.createDirectoryAtPath(data, withIntermediateDirectories:true, attributes:nil, error:nil)
+			do {
+				try fileMGR.createDirectoryAtPath(data, withIntermediateDirectories:true, attributes:nil)
+			}
+			catch let error as NSError {
+			    // Catch a possible error
+			    print("Ooops! Can't create directory: \(error)")
+			}
 		}
-	}
-
-	//
-	// class Function:	GetBundleId
-	//
-	// Description:		This class function will read the workflows info.plist and return
-	//							the bundleid
-	//
-	public func GetBundleId() -> String {
-		//
-		// get the bundle ID from the plist if already not retrieved.
-		//
-		if( bundleId == "" ) {
-			let path = NSBundle.mainBundle().pathForResource("info", ofType: "plist")
-			let dict = NSDictionary(contentsOfFile: path!)!
-			bundleId = dict["bundleid"] as! String
-		}
-
-		//
-		// Return the bundle ID.
-		//
-		return(bundleId)
 	}
 
 	//
@@ -263,7 +247,7 @@ public class Alfred {
 				results[0].Auto = auto
 				results[0].Rtype = rtype
 			}
-			currentResult++
+			currentResult = currentResult + 1;
 		}
 	}
 
@@ -286,11 +270,6 @@ public class Alfred {
 	//			rtype		I have no idea what this one is used for. HELP!
 	//
 	public func AddResultsSimilar(uid: String, inString: String, arg: String, title: String, sub: String, icon: String, valid: String, auto: String, rtype: String) {
-		//
-		// Create the test pattern.
-		//
-		var matchstr = inString + ".*"
-
 		//
 		// Compare the match String to the title for the Alfred output.
 		//
